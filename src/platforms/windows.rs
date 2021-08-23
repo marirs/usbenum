@@ -89,7 +89,7 @@ pub(crate) fn enumerate_connected_usb() -> crate::Result<Vec<ConnectedUsbDevices
                             description: Some(description),
                             serial_number: None,
                             volume_label: None,
-                            filesystem: None
+                            filesystem: None,
                         });
                     }
                 }

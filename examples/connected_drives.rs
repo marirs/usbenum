@@ -8,7 +8,7 @@ fn main() {
             } else {
                 println!("{:#?}", l)
             }
-        },
+        }
         Err(e) => println!("{:?}", e),
     }
 }

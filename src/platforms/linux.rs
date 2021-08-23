@@ -6,15 +6,14 @@ pub(crate) fn enumerate_connected_usb() -> crate::Result<Vec<ConnectedUsbDevices
 
     let mut enumerator = match Enumerator::new() {
         Ok(res) => res,
-        Err(_) => return Err(Error::Generic("could not get udev enumerator".to_string()))
+        Err(_) => return Err(Error::Generic("could not get udev enumerator".to_string())),
     };
 
     for device in enumerator.scan_devices().expect("could not scan devices") {
         if !is_usb_device(&device) {
-            continue
+            continue;
         }
         let _ = || -> Result<(), Box<dyn std::error::Error>> {
-
             let _id = device
                 .property_value("DEVPATH")
                 .ok_or(Error::UsbParsingError)?
@@ -66,7 +65,7 @@ pub(crate) fn enumerate_connected_usb() -> crate::Result<Vec<ConnectedUsbDevices
                 description,
                 serial_number,
                 volume_label,
-                filesystem
+                filesystem,
             });
 
             Ok(())
@@ -76,9 +75,7 @@ pub(crate) fn enumerate_connected_usb() -> crate::Result<Vec<ConnectedUsbDevices
     // remove if filesystem is none, just to stick with only usb drives
     output.retain(|item| match &item.filesystem.clone().is_none() {
         true => false,
-        _ => {
-            true
-        }
+        _ => true,
     });
     Ok(output)
 }
