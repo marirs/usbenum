@@ -8,6 +8,8 @@ pub enum Error {
     Io(#[from] std::io::Error),
     #[error("Unknown Error")]
     Unknown,
+    #[error("{0}")]
+    Generic(String),
     #[error("Not implemented")]
     NotImplemented,
 }
