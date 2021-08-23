@@ -8,7 +8,7 @@ use std::{
 use winapi::um::setupapi::*;
 
 pub(crate) fn enumerate_connected_usb() -> crate::Result<Vec<ConnectedUsbDevices>> {
-    let mut output: Vec<UsbDevice> = Vec::new();
+    let mut output: Vec<ConnectedUsbDevices> = Vec::new();
 
     let usb: Vec<u16> = OsStr::new("USB\0").encode_wide().collect();
     let dev_info = unsafe {
@@ -42,21 +42,8 @@ pub(crate) fn enumerate_connected_usb() -> crate::Result<Vec<ConnectedUsbDevices
             )
         } > 0
         {
-            if let Ok((vendor_id, product_id)) = extract_vid_pid(buf) {
-                if let Some(vid) = vid {
-                    if vid != vendor_id {
-                        continue;
-                    }
-                }
-
-                if let Some(pid) = pid {
-                    if pid != product_id {
-                        continue;
-                    }
-                }
-
+            if let Ok((_vendor_id, _product_id)) = extract_vid_pid(buf) {
                 buf = vec![0; 1000];
-
                 if unsafe {
                     SetupDiGetDeviceRegistryPropertyW(
                         dev_info,
@@ -83,13 +70,13 @@ pub(crate) fn enumerate_connected_usb() -> crate::Result<Vec<ConnectedUsbDevices
                         )
                     } > 0
                     {
-                        let id = string_from_buf_u16(buf);
+                        let _id = string_from_buf_u16(buf);
                         output.push(ConnectedUsbDevices {
                             vendor: None,
                             description: Some(description),
                             serial_number: None,
                             volume_label: None,
-                            filesystem: None,
+                            filesystem: None
                         });
                     }
                 }
@@ -105,8 +92,8 @@ pub(crate) fn enumerate_connected_usb() -> crate::Result<Vec<ConnectedUsbDevices
 fn extract_vid_pid(buf: Vec<u8>) -> Result<(u16, u16), Box<dyn std::error::Error + Send + Sync>> {
     let id = string_from_buf_u8(buf).to_uppercase();
 
-    let vid = id.find("VID_").ok_or(ParseError)?;
-    let pid = id.find("PID_").ok_or(ParseError)?;
+    let vid = id.find("VID_").ok_or(Error::UsbParsingError)?;
+    let pid = id.find("PID_").ok_or(Error::UsbParsingError)?;
 
     Ok((
         u16::from_str_radix(&id[vid + 4..vid + 8], 16)?,
