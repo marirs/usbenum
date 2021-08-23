@@ -1,7 +1,7 @@
 use crate::{consts::ConnectedUsbDevices, error::Error};
 use udev::Enumerator;
 
-fn enumerate_connected_usb() -> crate::Result<Vec<ConnectedUsbDevices>> {
+pub(crate) fn enumerate_connected_usb() -> crate::Result<Vec<ConnectedUsbDevices>> {
     let mut output = Vec::new();
 
     let mut enumerator = match Enumerator::new() {
@@ -73,7 +73,13 @@ fn enumerate_connected_usb() -> crate::Result<Vec<ConnectedUsbDevices>> {
         }();
     }
 
-    output.remove_nones();
+    // remove if filesystem is none, just to stick with only usb drives
+    output.retain(|item| match &item.filesystem.clone().is_none() {
+        true => false,
+        _ => {
+            true
+        }
+    });
     Ok(output)
 }
 
