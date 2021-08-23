@@ -1,4 +1,10 @@
 # USBENUM
+![Crates.io](https://img.shields.io/crates/v/usbenum)
+![GitHub](https://img.shields.io/github/license/marirs/usbenum)
+[![Windows](https://github.com/marirs/usbenum/actions/workflows/windows.yml/badge.svg)](https://github.com/marirs/usbenum/actions/workflows/windows.yml)
+[![MacOs](https://github.com/marirs/usbenum/actions/workflows/macos.yml/badge.svg)](https://github.com/marirs/usbenum/actions/workflows/macos.yml)
+[![Ubuntu](https://github.com/marirs/usbenum/actions/workflows/linux.yml/badge.svg)](https://github.com/marirs/usbenum/actions/workflows/linux.yml)
+[![Armv7 Linux](https://github.com/marirs/usbenum/actions/workflows/linux_arm.yml/badge.svg)](https://github.com/marirs/usbenum/actions/workflows/linux_arm.yml)
 
 Usb Enumeration is a cross-platform library that can enumerate USB devices currently connected and get connection history
 
