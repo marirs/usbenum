@@ -1,0 +1,35 @@
+[package]
+name = "usbenum"
+version = "0.1.0"
+description = "A cross platform library that can enumerate USB devices currently connected and get connection history"
+authors = ["Marirs <marirs@gmail.com>"]
+license = "MIT"
+license-file = "LICENSE"
+repository = "https://github.com/marirs/usbenum"
+edition = "2018"
+
+[dependencies]
+thiserror = "1.0.26"
+
+[target.'cfg(target_os = "macos")'.dependencies]
+core-foundation = "0.9"
+io-kit-sys = "0.1"
+mach = "0.3"
+[target.'cfg(target_os = "linux")'.dependencies]
+udev = "0.6"
+[target.'cfg(target_os = "windows")'.dependencies]
+winapi = {version = "0.3", features = ["setupapi", "impl-default"]}
+
+[lib]
+name = "usbenum"
+path = "src/lib.rs"
+
+[profile.dev]
+opt-level = 3
+
+[profile.release]
+codegen-units = 1
+debug-assertions = false
+debug = false
+opt-level = 3
+lto = true
