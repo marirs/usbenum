@@ -1,6 +1,6 @@
 use serde::{Deserialize, Serialize};
 
-#[derive(PartialEq, Hash, Clone, Default, Deserialize, Serialize)]
+#[derive(PartialEq, Hash, Clone, Debug, Default, Deserialize, Serialize)]
 pub struct ConnectedUsbDevices {
     pub vendor: Option<String>,
     pub description: Option<String>,
