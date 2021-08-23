@@ -73,10 +73,7 @@ pub(crate) fn enumerate_connected_usb() -> crate::Result<Vec<ConnectedUsbDevices
     }
 
     // remove if filesystem is none, just to stick with only usb drives
-    output.retain(|item| match &item.filesystem.clone().is_none() {
-        true => false,
-        _ => true,
-    });
+    output.retain(|item| !matches!(&item.filesystem.clone().is_none(), true));
     Ok(output)
 }
 
@@ -84,9 +81,5 @@ fn is_usb_device(device: &udev::Device) -> bool {
     //! Checks if a device is a USB device
     let device_filename = device.devpath().to_string_lossy().to_string();
     let device_subsystem = device.subsystem().unwrap_or_default();
-    if device_subsystem.eq_ignore_ascii_case("block") && device_filename.contains("/usb") {
-        true
-    } else {
-        false
-    }
+    device_subsystem.eq_ignore_ascii_case("block") && device_filename.contains("/usb")
 }
