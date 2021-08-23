@@ -5,6 +5,7 @@ description = "A cross platform library that can enumerate USB devices currently
 authors = ["Marirs <marirs@gmail.com>"]
 license-file = "LICENSE"
 repository = "https://github.com/marirs/usbenum"
+keywords = ["usb", "history", "connected", "drives", "enumerate"]
 edition = "2018"
 
 [dependencies]
