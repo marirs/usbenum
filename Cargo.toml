@@ -3,7 +3,6 @@ name = "usbenum"
 version = "0.1.0"
 description = "A cross platform library that can enumerate USB devices currently connected and get connection history"
 authors = ["Marirs <marirs@gmail.com>"]
-license = "MIT"
 license-file = "LICENSE"
 repository = "https://github.com/marirs/usbenum"
 edition = "2018"
