@@ -12,15 +12,14 @@ jobs:
   test_arm7:
     name: Linux ARMv7
     runs-on: ubuntu-24.04
+    env:
+      CROSS_CONFIG: .github/cross.toml
     steps:
       - uses: actions/checkout@v7
       - uses: dtolnay/rust-toolchain@master
         with:
           toolchain: stable
           targets: armv7-unknown-linux-gnueabihf
-      - name: Install libudev
-
-        run: sudo apt-get update && sudo apt-get install -y libudev-dev
       - name: Install cross
         run: cargo install cross --locked --version 0.2.5
       - run: cross test --target armv7-unknown-linux-gnueabihf
