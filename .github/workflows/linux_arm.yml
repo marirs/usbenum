@@ -11,19 +11,16 @@ on:
 jobs:
   test_arm7:
     name: Linux ARMv7
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     steps:
-      - uses: actions/checkout@v2
-      - uses: actions-rs/toolchain@v1
+      - uses: actions/checkout@v7
+      - uses: dtolnay/rust-toolchain@master
         with:
           toolchain: stable
-          target: armv7-unknown-linux-gnueabihf
-          override: true
+          targets: armv7-unknown-linux-gnueabihf
       - name: Install libudev
-        if: matrix.os == 'ubuntu-latest'
+
         run: sudo apt-get update && sudo apt-get install -y libudev-dev
-      - uses: actions-rs/cargo@v1
-        with:
-          use-cross: true
-          command: test
-          args: --target armv7-unknown-linux-gnueabihf
+      - name: Install cross
+        run: cargo install cross --locked --version 0.2.5
+      - run: cross test --target armv7-unknown-linux-gnueabihf
